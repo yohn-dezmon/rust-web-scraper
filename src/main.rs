@@ -33,6 +33,9 @@ fn main() {
     // first we `zip` the title list from 1-100
     // I guess we do this to get a subset of the potential iterator result values.
     // where is the `number` value coming from? 
+    // ** The number values come from the range we provided 1..101 !! 
+    // the item values come from the titles iterator 
+    // thus we have merged the range iterator with the titles iterator, and output a tuple for each value.
     titles 
         .zip(1..101)
         .for_each(|(item, number)| println!("{}. {}", number, item));
