@@ -1,0 +1,73 @@
+Two rust crates: reqwest & scraper
+
+We'll scrape the 100 movies list from IMDb. 
+
+Scraping a page usually involves getting the HTML code of the page and then parsing it to find the information you need. 
+
+How browsers work:
+- to display a web page, the browser sends an HTTP request to the server 
+- the server responds with source code for the web page 
+- the browser renders that code 
+
+To get the HTML Source Code for a website, you'll have to mimic the browser with Rust (by sending a GET request).
+^ This is what the `reqwest` crate is for. It is an HTTP client. 
+
+why is it reqwest::blocking::get ... i.e. what is the blocking type/method?
+
+
+The `scraper` crate is used to extract the info you need from the HTML.
+It parses the HTML into a tree-like structure.
+You can use CSS Selectors to query the elements you're interested in.
+You need to check the website, to see which CSS selectors are available.
+
+I think CSS Selectors correspond to `class=` tags within HTML elements.
+<span class="lister-item-index unbold text-primary"> I think is the one we want... (It has the name of the movie)
+
+How do I copy the HTML? 
+
+1. find the tag unique to the movie titles 
+2. navigate to the <a> tag within that tag 
+
+<h3 class="lister-item-header">
+    <span class="lister-item-index unbold text-primary">1.</span>
+    <a href="/title/tt0111161/?ref_=adv_li_tt">The Shawshank Redemption</a>
+    <span class="lister-item-year text-muted unbold">(1994)</span>
+</h3>
+
+^^ you can get this by doing "copy element" 
+...
+
+<h3 class="lister-item-header">
+        <span class="lister-item-index unbold text-primary">1.</span>
+    
+    <a href="/title/tt0111161/?ref_=adv_li_tt">The Shawshank Redemption</a>
+    <span class="lister-item-year text-muted unbold">(1994)</span>
+</h3>
+
+3. create a query with scaper::Selector::parse method 
+
+You’ll give it a h3.lister-item-header>a selector. In other words, it finds 
+<a> tags that have as a parent an <h3> tag that is of a lister-item-header class.
+
+4. Now you can use the query to query your document with the `select` method 
+
+
+What is `zip` in rust (iterators)?
+- zip is typically used to combine iterators into tuples ... so it returns a new iterator with a tuple of 
+(iter_1, iter_2) values
+
+
+How does map work in rust?
+- why the  | |?
+- map can only be applied to Iterable (Iterator) types 
+- any Vec of elements can be converted into an Iterator with `iter()` or `into_iter()`
+- Iterable.map(|current item| function(current item))
+- collect() method consumes the iterator and collects the resulting values into a collection data type 
+
+Is Vec the same thing as an array in python/java?
+
+
+Things I need to look into further:
+- How to use iterators effectively in Rust 
+- How to use Option<> generic types in Rust 
+- How is the number genreated from the .zip().for_each() method?

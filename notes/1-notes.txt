@@ -1,0 +1,6 @@
+% cargo new web_scraper
+% cd web_scraper
+% cargo run
+...
+Hello, world!
+
